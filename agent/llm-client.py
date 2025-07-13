@@ -30,5 +30,6 @@ class LLMClient:
         )
 
         self.embedding_model = AzureOpenAIEmbeddings(
-
+            azure_deployment=EMBEDDING_DEPLOYMENT_NAME,
+            api_key=api_key,
         )
