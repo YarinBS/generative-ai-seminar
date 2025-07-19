@@ -3,6 +3,8 @@ This module defines the AnswerGenerator microagent,
 which is responsible for generating answers to user questions based on the retrieved information.
 """
 
+from typing import List
+
 from llm_client import LLMClient
 
 class AnswerGenerator:
@@ -26,8 +28,27 @@ class AnswerGenerator:
         Format your response as a clear, helpful answer that directly addresses the user's question.
         """
 
-    def generate_answer(self, user_question: str, context: str) -> str:
+    def generate_answer(self, user_question: str, context: List[str]) -> str:
         """
         Generates an answer to the user question based on the provided context.
         """
-        raise NotImplementedError("Not implemented yet!")
+
+        # Building the message for the LLM
+        complete_human_input = f"""
+        Based on the following information from real customer experiences and reviews, answer the following question:
+        
+        Question: {user_question}
+        
+        Available Information:
+        {context}
+
+        Provide a helpful, accurate answer based on this information.
+        """
+        
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "human", "content": complete_human_input}
+        ]
+
+        answer = self.llm_client.generate_response(messages=messages)
+        return answer.strip()
