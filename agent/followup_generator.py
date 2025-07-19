@@ -26,9 +26,30 @@ class FollowUpGenerator:
         Format your response as a simple list of 2-3 questions, one per line, without numbering or bullet points.
         """
 
-    def generate_follow_ups(self, user_input: str, retrieved_info: List[str]) -> str:
+    def generate_follow_ups(self, user_input: str, retrieved_info: List[str]) -> List[str]:
         """
         Generates follow-up questions based on the user input and retrieved information.
         """
+
+        def _parse_follow_ups(follow_up_questions: str) -> List[str]:
+            """Parses the follow-up questions from the LLM response."""
+            return [q.strip() for q in follow_up_questions.split('\n')]
+
+        complete_human_input = f"""
+        Based on the following conversation, generate 2-3 relevant follow-up questions:
+
+        User question: {user_input}
+        Available Information Context:
+        {retrieved_info}
         
-        raise NotImplementedError("Not implemented yet!")
+        Generate follow-up questions that would help the user discover more useful information about this product or related concerns.
+        Return the follow-up questions as a simple list, each question on a new line, separated by a newline character.
+        """
+        
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "human", "content": complete_human_input}
+        ]
+
+        follow_ups = self.llm_client.generate_response(messages=messages)
+        return _parse_follow_ups(follow_up_questions=follow_ups)
