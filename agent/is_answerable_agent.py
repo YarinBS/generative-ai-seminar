@@ -16,13 +16,7 @@ class IsAnswerableAgent:
         You are a verification specialist for Amazon product support.
         Your task is to determine if a user's question can be reliably answered using the provided information.
         
-        Available information:
-        {retrieved_info}
-        
-        User question:
-        {question}
-        
-        Evaluate if the retrieved information contains enough relevant details to provide a helpful, accurate answer.
+        Given the available information and the user question, evaluate if the retrieved information contains enough relevant details to provide a helpful, accurate answer.
         Consider:
         1. Does the information directly address the user's question?
         2. Are there specific details about the product features mentioned in the question?
@@ -36,5 +30,25 @@ class IsAnswerableAgent:
         """
         Checks if the retrieved information can be used to answer the user question.
         """
+
+        complete_human_input = f"""
+        Based on the following information, determine if the user's question can be answered.
+
+        User Question:
+        {user_question}
+
+        Retrieved Information:
+        {retrieved_info}
+
+        Provide a simple "YES" or "NO" response based on the information's relevance and completeness.
+        Do not provide any additional explanations or details other than your "YES" or "NO" answer.
+        """
         
-        raise NotImplementedError("Not implemented yet!")
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": complete_human_input}
+        ]
+
+        response = self.llm_client.generate_response(messages=messages)
+
+        return response.strip().upper() == "YES"

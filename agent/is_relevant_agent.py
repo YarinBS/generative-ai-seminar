@@ -13,15 +13,8 @@ class IsRelevantAgent:
         self.llm_client = llm_client
         self.system_prompt = """
         You are a quality assurance specialist for Amazon product support.
-        Your task is to verify if a generated answer is relevant, accurate, and helpful.
-        
-        Original question: {question}
-        
-        Retrieved information:
-        {retrieved_info}
-        
-        Generated answer: {generated_answer}
-        
+        Given a question, and an answer your task is to verify if a generated answer is relevant, accurate, and helpful.
+
         Evaluate the answer based on:
         1. Does it directly address the user's question?
         2. Is it based on the provided information?
@@ -36,5 +29,20 @@ class IsRelevantAgent:
         """
         Assesses the relevance of the generated response to the user question.
         """
+
+        complete_human_input = f"""
+        Based on the following information, determine if the generated answer is relevant and helpful.
         
-        raise NotImplementedError("Not implemented yet!")
+        Original question: {user_question}
+        
+        Generated answer: {generated_response}
+
+        Provide a simple "YES" or "NO" response based on the answer's relevance and helpfulness.
+        Do not provide any additional explanations or details other than your "YES" or "NO" answer.
+        """
+
+        response = self.llm_client.generate_response(messages=[
+            {"role": "user", "content": complete_human_input}
+        ])
+
+        return response.strip().upper() == "YES"
