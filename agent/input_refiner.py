@@ -3,16 +3,16 @@ This module defines the InputRefiner microagent,
 which is responsible for refining and enriching user questions
 """
 
-from typing import Dict, List
+from langchain.memory import ConversationBufferMemory
 
-
-from llm_client import LLMClient
+from agent.llm_client import LLMClient
 
 class InputRefiner:
     """Microagent for refining and enriching user questions."""
 
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, chat_history: ConversationBufferMemory):
         self.llm_client = llm_client
+        self.chat_history = chat_history
         self.system_prompt =  """
         You are a question refinement specialist for Amazon product support.
 
@@ -24,7 +24,7 @@ class InputRefiner:
         Return only the refined question without any explanations or additional text.
         """
 
-    def refine_input(self, user_input: str, chat_history: List[Dict[str, str]] = None) -> str:
+    def refine_input(self, user_input: str) -> str:
         """
         Refines the user input by adding context or modifying it to improve LLM responses.
         """
@@ -41,7 +41,7 @@ class InputRefiner:
 
         response = self.llm_client.generate_response(messages=messages)
 
-        if chat_history:
+        if self.chat_history:
             # If we have chat history, we can add it to the context
             response = None  #TODO: Implement chat history context handling
         
