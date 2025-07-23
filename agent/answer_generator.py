@@ -5,7 +5,7 @@ which is responsible for generating answers to user questions based on the retri
 
 from typing import List
 
-from llm_client import LLMClient
+from agent.llm_client import LLMClient
 
 class AnswerGenerator:
     """Microagent for generating answers to user questions."""

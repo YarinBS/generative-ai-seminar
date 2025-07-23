@@ -5,7 +5,7 @@ which is responsible for generating follow-up questions based on the user's inpu
 
 from typing import List
 
-from llm_client import LLMClient
+from agent.llm_client import LLMClient
 
 class FollowUpGenerator:
     """Microagent for generating relevant follow-up questions"""
