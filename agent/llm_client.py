@@ -2,12 +2,13 @@
 This module contains the LLMClient class, which is used to interact with the LLM.
 """
 
+import os
+from typing import List, Dict
+
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
-import os
 import tiktoken
-from typing import List, Dict
 
 from utils.token_tracker import log_token_usage
 
@@ -26,8 +27,8 @@ API_VERSION = "2023-05-15"
 class LLMClient:
     """
     This is a general LLM client class to be used across all microagents in the project.
-    It initializes the chat model and embedding model using Azure OpenAI and provides methods for chat/embedding generation, 
-    as well as tokens count.
+    It initializes the chat and embedding models using AzureOpenAI,
+    and provides methods for chat/embedding generation, as well as tokens count.
     """
 
     def __init__(self):
@@ -48,14 +49,14 @@ class LLMClient:
         )
 
         self.tokenizer = tiktoken.encoding_for_model("gpt-4o")
-    
+
     def count_tokens(self, text: str) -> int:
         """Counts the number of tokens in the given text using the tokenizer."""
         return len(self.tokenizer.encode(text))
-    
+
     def generate_response(self, messages: List[Dict[str, str]]) -> str:
         """Generates a response from the chat model based on the provided messages."""
-        
+
         langchain_messages = []
         total_input_tokens = 0
 
@@ -68,15 +69,17 @@ class LLMClient:
                 langchain_messages.append(AIMessage(content=msg["content"]))
             else:
                 langchain_messages.append(HumanMessage(content=msg["content"]))
-            
+
             total_input_tokens += self.count_tokens(msg["content"])
-        
+
         response = self.chat_model.invoke(langchain_messages)
         output_tokens = self.count_tokens(response.content)
-        log_token_usage(operation="response_generation", 
-                        input_tokens=total_input_tokens, 
-                        output_tokens=output_tokens)
-        
+        log_token_usage(
+            operation="response_generation",
+            input_tokens=total_input_tokens,
+            output_tokens=output_tokens
+        )
+
         return response.content
 
     def generate_embeddings(self, texts: List[str]) -> List[float]:
@@ -87,9 +90,11 @@ class LLMClient:
             embeddings = self.embedding_model.embed_query(texts)
         else:
             embeddings = self.embedding_model.embed_documents(texts)
-        
-        log_token_usage(operation="embeddings_generation", 
-                        input_tokens=total_input_tokens)
+
+        log_token_usage(
+            operation="embeddings_generation",
+            input_tokens=total_input_tokens
+        )
 
         return embeddings
 
