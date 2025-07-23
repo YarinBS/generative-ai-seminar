@@ -5,7 +5,7 @@ which is responsible for determining if the retrieved data can be used to answer
 
 from typing import List
 
-from llm_client import LLMClient
+from agent.llm_client import LLMClient
 
 class IsAnswerableAgent:
     """Microagent for determining if the retrieved data can answer the user's question."""
@@ -26,7 +26,7 @@ class IsAnswerableAgent:
         Respond with only "YES" if the question can be answered, or "NO" if it cannot be answered reliably.
         """
 
-    def check_answerability(self, user_question: str, retrieved_info: List[str]) -> str:
+    def check_answerability(self, user_question: str, retrieved_info: List[str]) -> bool:
         """
         Checks if the retrieved information can be used to answer the user question.
         """

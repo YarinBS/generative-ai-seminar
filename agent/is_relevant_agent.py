@@ -4,7 +4,7 @@ which is responsible for determining the relevance of the generated response
 to the user's question.
 """
 
-from llm_client import LLMClient
+from agent.llm_client import LLMClient
 
 class IsRelevantAgent:
     """Microagent for determining the relevance of the generated response."""
@@ -25,7 +25,7 @@ class IsRelevantAgent:
         Respond with only "YES" if the answer is good, or "NO" if it needs improvement.
         """
 
-    def assess_relevance(self, user_question: str, generated_response: str) -> str:
+    def assess_relevance(self, user_question: str, generated_response: str) -> bool:
         """
         Assesses the relevance of the generated response to the user question.
         """
