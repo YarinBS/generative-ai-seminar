@@ -1,6 +1,6 @@
 """
 This module defines the IsAnswerableAgent microagent,
-which is responsible for determining if the retrieved data can be used to answer the user's question.
+which is responsible for determining if the retrieved data can be used to answer the given question.
 """
 
 from typing import List
@@ -15,14 +15,14 @@ class IsAnswerableAgent:
         self.system_prompt = """
         You are a verification specialist for Amazon product support.
         Your task is to determine if a user's question can be reliably answered using the provided information.
-        
+
         Given the available information and the user question, evaluate if the retrieved information contains enough relevant details to provide a helpful, accurate answer.
         Consider:
         1. Does the information directly address the user's question?
         2. Are there specific details about the product features mentioned in the question?
         3. Is the information recent and relevant?
         4. Are there multiple perspectives or experiences shared?
-        
+
         Respond with only "YES" if the question can be answered, or "NO" if it cannot be answered reliably.
         """
 
@@ -43,7 +43,7 @@ class IsAnswerableAgent:
         Provide a simple "YES" or "NO" response based on the information's relevance and completeness.
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
         """
-        
+
         messages = [
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": complete_human_input}

@@ -15,7 +15,7 @@ class AnswerGenerator:
         self.system_prompt = """
         You are Alexupport, an expert Amazon product support assistant.
         Your role is to provide helpful, accurate answers based on real customer experiences and verified information.
-        
+
         Guidelines:
         1. Base your answers ONLY on the provided information from customer reviews and Q&A
         2. Be specific and detailed in your responses
@@ -24,7 +24,7 @@ class AnswerGenerator:
         5. If there are conflicting opinions, acknowledge different perspectives
         6. Don't speculate or make claims not supported by the data
         7. Keep responses concise but informative
-        
+
         Format your response as a clear, helpful answer that directly addresses the user's question.
         """
 
@@ -36,15 +36,15 @@ class AnswerGenerator:
         # Building the message for the LLM
         complete_human_input = f"""
         Based on the following information from real customer experiences and reviews, answer the following question:
-        
+
         Question: {user_question}
-        
+
         Available Information:
         {context}
 
         Provide a helpful, accurate answer based on this information.
         """
-        
+
         messages = [
             {"role": "system", "content": self.system_prompt},
             {"role": "human", "content": complete_human_input}

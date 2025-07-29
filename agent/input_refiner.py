@@ -25,9 +25,7 @@ class InputRefiner:
         """
 
     def refine_input(self, user_input: str) -> str:
-        """
-        Refines the user input by adding context or modifying it to improve LLM responses.
-        """
+        """Refines the user input to improve LLM responses"""
 
         complete_human_input = f"""
         Refine the following user question to improve clarity and specificity.
@@ -44,5 +42,5 @@ class InputRefiner:
         if self.chat_history:
             # If we have chat history, we can add it to the context
             response = None  #TODO: Implement chat history context handling
-        
+
         return response.strip()
