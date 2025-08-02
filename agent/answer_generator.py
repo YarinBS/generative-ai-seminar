@@ -5,13 +5,16 @@ which is responsible for generating answers to user questions based on the retri
 
 from typing import List
 
+from langchain.memory import ConversationBufferMemory
+
 from agent.llm_client import LLMClient
 
 class AnswerGenerator:
     """Microagent for generating answers to user questions."""
 
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, chat_history: ConversationBufferMemory):
         self.llm_client = llm_client
+        self.chat_history = chat_history
         self.system_prompt = """
         You are Alexupport, an expert Amazon product support assistant.
         Your role is to provide helpful, accurate answers based on real customer experiences and verified information.
@@ -34,8 +37,16 @@ class AnswerGenerator:
         """
 
         # Building the message for the LLM
+
+        if self.chat_history:
+            history_string = ";".join(f"{message.type.capitalize()}: {message.content}" for message in self.chat_history.chat_memory.messages)
+            history_prefix = f"Here's the history of the current chat: [{history_string}]."
+        else:
+            history_prefix = ""
+
         complete_human_input = f"""
-        Based on the following information from real customer experiences and reviews, answer the following question:
+        {history_prefix}
+        Based on the following information from real customer experiences and reviews, answer the following question using the available information.
 
         Question: {user_question}
 
