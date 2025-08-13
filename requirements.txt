@@ -1,3 +1,4 @@
-langchain
-langchain-openai
-dotenv
+langchain==0.3.26
+langchain-openai==0.3.27
+dotenv==1.1.1
+streamlit==1.48.1
