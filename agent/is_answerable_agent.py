@@ -44,6 +44,9 @@ class IsAnswerableAgent:
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
         """
 
+        if not retrieved_info:  # In the case we got nothing from the vector DB, there's nothing to base our answer on, so we say the answer is not answerable
+            return False
+
         messages = [
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": complete_human_input}
