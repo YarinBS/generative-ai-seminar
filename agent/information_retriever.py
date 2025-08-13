@@ -4,7 +4,7 @@ which is responsible for retrieveing relevant information from the Qdrant databa
 """
 
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, Filter, FieldCondition, MatchValue
+from qdrant_client.http.models import Filter, FieldCondition, MatchValue
 
 from agent.llm_client import LLMClient
 
@@ -22,25 +22,25 @@ class InformationRetriever:
         self.qdrant_client = qdrant_client
         self.llm_client = llm_client
 
-    def _create_and_populate_collection(self):
-        """If the collection does not exist, create and populate it"""
+    # def _create_and_populate_collection(self):
+    #     """If the collection does not exist, create and populate it"""
 
-        if not self.qdrant_client.collection_exists("data_collection"):
-            # The collection does not exist - create it
-            self.qdrant_client.create_collection(
-                collection_name="data_collection",
-                vectors_config={
-                    "questionText": {"size": 1536, "distance": Distance.COSINE}
-                },
-                # Explicitly index the "asin" field in the payload
-                payload_schema={
-                    "asin": {"type": "keyword"}
-                }
-            )
+    #     if not self.qdrant_client.collection_exists("data_collection"):
+    #         # The collection does not exist - create it
+    #         self.qdrant_client.create_collection(
+    #             collection_name="data_collection",
+    #             vectors_config={
+    #                 "questionText": {"size": 1536, "distance": Distance.COSINE}
+    #             },
+    #             # Explicitly index the "asin" field in the payload
+    #             payload_schema={
+    #                 "asin": {"type": "keyword"}
+    #             }
+    #         )
 
-            # Then, populate the collection
-            # TODO: Populate the collection with data
-            raise NotImplementedError("Data population logic is not implemented yet.")
+    #         # Then, populate the collection
+    #         # TODO: Populate the collection with data
+    #         raise NotImplementedError("Data population logic is not implemented yet.")
 
     def retrieve_information(self, query: str, product_id: str) -> list:
         """
