@@ -21,15 +21,16 @@ class AlexupportAgent:
     def __init__(self):
 
         self.introduction = """
-        ADD INSTRUCTIONS HERE
+        Hi! I am Alexupport 🤖, your Amazon AI assistant. I am here to answer your questions regarding different Amazon products.
+        Start by choosing a product, and then ask me anything about it!
         """
 
         self.memory = ConversationBufferMemory()
 
         # Initializing all microagents
-        self.input_refiner = InputRefiner(llm_client=LLM_CLIENT, chat_history=self.memory)
+        self.input_refiner = InputRefiner(llm_client=LLM_CLIENT)
         self.is_answerable_agent = IsAnswerableAgent(llm_client=LLM_CLIENT)
-        self.answer_generator = AnswerGenerator(llm_client=LLM_CLIENT)
+        self.answer_generator = AnswerGenerator(llm_client=LLM_CLIENT, chat_history=self.memory)
         self.followup_generator = FollowUpGenerator(llm_client=LLM_CLIENT)
         self.is_relevant_generator = IsRelevantAgent(llm_client=LLM_CLIENT)
 
