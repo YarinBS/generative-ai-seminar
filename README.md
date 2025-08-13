@@ -51,7 +51,7 @@ These steps reduce the number of unqiue items to 163, maintaing only the clean a
     echo "API_KEY = <your-api-key>" > .env
     ```
 
-3. **Run the agent**
+3. **Run the agent using the Streamlit UI**
     ```bash
-    python main.py
+    streamlit run streamlit_app.py
     ```
