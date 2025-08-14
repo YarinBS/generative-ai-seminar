@@ -22,26 +22,6 @@ class InformationRetriever:
         self.qdrant_client = qdrant_client
         self.llm_client = llm_client
 
-    # def _create_and_populate_collection(self):
-    #     """If the collection does not exist, create and populate it"""
-
-    #     if not self.qdrant_client.collection_exists("data_collection"):
-    #         # The collection does not exist - create it
-    #         self.qdrant_client.create_collection(
-    #             collection_name="data_collection",
-    #             vectors_config={
-    #                 "questionText": {"size": 1536, "distance": Distance.COSINE}
-    #             },
-    #             # Explicitly index the "asin" field in the payload
-    #             payload_schema={
-    #                 "asin": {"type": "keyword"}
-    #             }
-    #         )
-
-    #         # Then, populate the collection
-    #         # TODO: Populate the collection with data
-    #         raise NotImplementedError("Data population logic is not implemented yet.")
-
     def retrieve_information(self, query: str, product_id: str) -> list:
         """
         Retrieve relevant information from the Qdrant database based on the user's query.
@@ -57,7 +37,7 @@ class InformationRetriever:
         query_vector = self.llm_client.generate_embeddings(texts=[query])
 
         # Use the Qdrant client to perform the search
-        search_results = client.query_points(
+        search_results = self.qdrant_client.query_points(
             collection_name="data_collection",  # Collection name to search in
             query=query_vector,  # The vector to search for similar points
             using="questionText",  # The field to use for similarity search
@@ -66,7 +46,7 @@ class InformationRetriever:
             query_filter=Filter(  # Filter to narrow down results based on a specific 'asin'
                 must=[
                     FieldCondition(key="asin", match=MatchValue(value=product_id)),
-                    FieldCondition(key="_score", range={"gte": 0.7})
+                    FieldCondition(key="_score", range={"gte": 0.7})  # Similarity score >= 0.7
                 ]
             )
         )
