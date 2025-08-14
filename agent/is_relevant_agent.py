@@ -4,6 +4,8 @@ which is responsible for determining the relevance of the generated response
 to the user's question.
 """
 
+from typing import List
+
 from agent.llm_client import LLMClient
 
 class IsRelevantAgent:
@@ -21,20 +23,22 @@ class IsRelevantAgent:
         3. Is it helpful and informative?
         4. Does it avoid speculation or generic responses?
         5. Is it written in a clear, professional tone?
-        
+
         Respond with only "YES" if the answer is good, or "NO" if it needs improvement.
         """
 
-    def assess_relevance(self, user_question: str, generated_response: str) -> bool:
+    def assess_relevance(self, user_question: str, generated_response: str, context: List[str]) -> bool:
         """
         Assesses the relevance of the generated response to the user question.
         """
 
         complete_human_input = f"""
         Based on the following information, determine if the generated answer is relevant and helpful.
-        
+
         Original question: {user_question}
-        
+
+        Context: {context}
+
         Generated answer: {generated_response}
 
         Provide a simple "YES" or "NO" response based on the answer's relevance and helpfulness.
