@@ -3,6 +3,8 @@ Main Alexupport agent
 This module contains the main agent which orchestrates the other microagents
 """
 
+from typing import List
+
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import HumanMessage, AIMessage
 
@@ -11,6 +13,7 @@ from agent.followup_generator import FollowUpGenerator
 from agent.input_refiner import InputRefiner
 from agent.is_answerable_agent import IsAnswerableAgent
 from agent.is_relevant_agent import IsRelevantAgent
+from agent.information_retriever import InformationRetriever, client
 from agent.llm_client import LLMClient
 
 LLM_CLIENT = LLMClient()
@@ -31,6 +34,7 @@ class AlexupportAgent:
 
         # Initializing all microagents
         self.input_refiner = InputRefiner(llm_client=LLM_CLIENT)
+        self.information_retriever = InformationRetriever(qdrant_client=client, llm_client=LLM_CLIENT)
         self.is_answerable_agent = IsAnswerableAgent(llm_client=LLM_CLIENT)
         self.answer_generator = AnswerGenerator(llm_client=LLM_CLIENT, chat_history=self.memory)
         self.followup_generator = FollowUpGenerator(llm_client=LLM_CLIENT)
@@ -46,11 +50,81 @@ class AlexupportAgent:
             return self.chat_start.format(product_title=product_title)
         return "Let's have a chat about your product.\nAsk me anything!"
 
-    def answer_user_query(self, user_query: str) -> str:
+    def _format_final_answer(self, answer: str, follow_ups: List[str]):
+        formatted_answer = f"""
+        {answer}
+        Here are some follow-up questions you might consider:
+        {";".join([f for f in follow_ups])}
+        """
+
+        return formatted_answer
+
+    def answer_user_query(self, user_query: str, product_asin: str) -> str:
         """Main Alexupport pipeline"""
-        # Step 0 - Clear previous chat history, if exists
+        # Step 0 - Clear previous chat history, if exists, and append the user query
         self.memory.clear()
+        self.memory.chat_memory.add_user_message(content=user_query)
 
-        #TODO: Implement the complete pipeline
+        # Step 1 - Refine user query
+        refined_query = self.input_refiner.refine_input(user_query)
 
-        raise NotImplementedError()
+        # Step 2 - Retrieve relevant information from the DB
+        retrieved_info = self.information_retriever.retrieve_information(
+            query=refined_query,
+            product_id=product_asin
+        )
+
+        # Step 3 - Check if the query is answerable
+        if not self.is_answerable_agent.check_answerability(
+            user_question=refined_query,
+            retrieved_info=retrieved_info
+        ):
+            return "I'm sorry, but I can't answer that question. This may be due to insufficient information. Try asking something else."
+
+        # Iterate up to 5 times
+        iteration = 0
+        while iteration < 5:
+
+            # Step 4 - Generate answer
+            answer = self.answer_generator.generate_answer(
+                user_question=refined_query,
+                context=retrieved_info
+            )
+
+            # Step 5 - Check answer relevance
+            is_relevant = self.is_relevant_generator.assess_relevance(
+                user_question=refined_query,
+                generated_response=answer,
+                context=retrieved_info
+            )
+
+            if is_relevant:
+
+                # Step 6 - Generate follow-up questions
+                followup_questions = self.followup_generator.generate_follow_ups(
+                    user_question=refined_query,
+                    context=retrieved_info
+                )
+
+                final_answer = self._format_final_answer(
+                    answer=answer,
+                    follow_ups=followup_questions
+                )
+
+                self.memory.chat_memory.add_ai_message(content=final_answer)
+                return final_answer
+
+            iteration += 1
+
+        followup_questions = self.followup_generator.generate_follow_ups(
+            user_question=refined_query,
+            context=retrieved_info
+        )
+
+        final_answer = self._format_final_answer(
+            answer=answer,
+            follow_ups=followup_questions
+        )
+
+        self.memory.chat_memory.add_ai_message(content=final_answer)
+        return final_answer
