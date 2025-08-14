@@ -25,6 +25,8 @@ class AlexupportAgent:
         Start by choosing a product, and then ask me anything about it!
         """
 
+        self.chat_start = "Let's have a chat about {product_title}.\nAsk me anything!"
+
         self.memory = ConversationBufferMemory()
 
         # Initializing all microagents
@@ -37,6 +39,12 @@ class AlexupportAgent:
     def get_agent_introduction(self) -> str:
         """Displays the agent introduction and instructions to the user upon activation"""
         return self.introduction
+
+    def get_agent_chat_start(self, product_title: str) -> str:
+        """Displays the initial chat prompt to the user"""
+        if product_title != "No title found":
+            return self.chat_start.format(product_title=product_title)
+        return "Let's have a chat about your product.\nAsk me anything!"
 
     def answer_user_query(self, user_query: str) -> str:
         """Main Alexupport pipeline"""
