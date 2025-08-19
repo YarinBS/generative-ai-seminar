@@ -1,8 +1,8 @@
-# Alexupport - Amazon Product Support Assistant
+# 🤖 Alexupport - Amazon Product Support Assistant
 
-🤖 An autonomous AI agent built with LangChain that provides customer support for Amazon products using real customer Q&A data and verified information.
+An autonomous AI agent built with LangChain that provides customer support for Amazon products using real customer Q&A data and verified information.
 
-## Agent structure & workflow
+## 🏗️ Agent structure & workflow
 
 The Alexupport agent is comprised of several microagents in the `agents` directory:
 
@@ -29,7 +29,7 @@ The above components create the complete Alexupport workflow - given a user ques
 
 The complete Alexupport agent is built under the `alexupport_agent.py` file, which integrates the mentioned microagents into a complete pipeline, as described above.
 
-## Data
+## 📚 Data
 
 Alexupport uses [the AmazonQA dataset](https://github.com/amazonqa/amazonqa) - a large review-based Question Answering dataset. We use Qdrant as out vector database to store the data, along with its embedding vectors, to later query it, based on the user's query. As a proof of concept of the Alexupport agent, we use only the validation part of the dataset (`val-qar.jsonl`).
 
@@ -44,7 +44,7 @@ Before loading the data to the Qdrant collection, we perform the following pre-p
 
 These steps reduce the number of unqiue items to 163 and the number of records to 1246, maintaing only the clean and filtered information we require for the agent.
 
-## Setup
+## ⚒️ Setup
 
 1. **Install dependencies**
     ```bash
