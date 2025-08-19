@@ -1,5 +1,6 @@
 # There are ~20 input and ~20 output tokens that were not counted due to a logging bug
 
+# Populating the Qdrant collection with data and embeddings
 2025-07-19T17:55:40.704105 - response_generation: input=13, output=9
 2025-08-19T17:37:46.803103 - embeddings_generation: input=14, output=0
 2025-08-19T17:38:12.479602 - embeddings_generation: input=6, output=0
@@ -1247,3 +1248,4 @@
 2025-08-19T17:50:16.451135 - embeddings_generation: input=16, output=0
 2025-08-19T17:50:16.929473 - embeddings_generation: input=15, output=0
 2025-08-19T17:50:17.404025 - embeddings_generation: input=30, output=0
+
