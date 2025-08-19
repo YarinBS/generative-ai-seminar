@@ -36,16 +36,14 @@ asin_list = sorted(asin_title_map.keys())
 product = next((point for point in points if point.payload.get('asin') == selected_asin), None)
 product_title = product.payload['productTitle'] if product else 'No title found'
 
-# st.success(f"You selected ASIN: {selected_asin}")
 st.info(f"**Product Title:** {product_title}\n\nYou can view the product page here: \nhttps://www.amazon.com/dp/{selected_asin}")
 st.markdown("---")
-# product_title = asin_title_map.get(selected_asin, 'No title found')
 
 # Initialize chat history and reset if ASIN changes
 if "asin" not in st.session_state or st.session_state["asin"] != selected_asin:
     st.session_state["asin"] = selected_asin
     st.session_state["messages"] = []
-    # Start chat with AlexupportAgent's chat start message
+
     chat_start_msg = agent.get_agent_chat_start(product_title)
     st.session_state["messages"].append({"role": "assistant", "content": chat_start_msg})
 
@@ -54,15 +52,12 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Accept user input
+# Chat starts here
 if prompt := st.chat_input("Your question here..."):
-    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
-    # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Display assistant response in chat message container
     with st.chat_message("assistant"):
 
         # ----- Agent response logic -----
@@ -86,5 +81,4 @@ if prompt := st.chat_input("Your question here..."):
         # response = st.write_stream(agent.answer_user_query(user_query=prompt))
         # ----- Agent response logic -----
 
-    # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
