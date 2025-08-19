@@ -87,7 +87,7 @@ class LLMClient:
         total_input_tokens = sum(self.count_tokens(text) for text in texts)
 
         if len(texts) == 1:
-            embeddings = self.embedding_model.embed_query(texts)
+            embeddings = self.embedding_model.embed_query(texts[0])
         else:
             embeddings = self.embedding_model.embed_documents(texts)
 
