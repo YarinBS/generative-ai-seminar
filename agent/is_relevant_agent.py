@@ -61,4 +61,4 @@ class IsRelevantAgent:
 
         response = self.llm_client.generate_response(messages=messages)
 
-        return response.strip().upper() == "YES"
+        return response.strip().upper() == "YES" or response.strip().upper().startswith("YES")
