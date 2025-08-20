@@ -54,8 +54,11 @@ class IsRelevantAgent:
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
         """)
 
-        response = self.llm_client.generate_response(messages=[
-            {"role": "user", "content": complete_human_input}
-        ])
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "human", "content": complete_human_input}
+        ]
+
+        response = self.llm_client.generate_response(messages=messages)
 
         return response.strip().upper() == "YES"
