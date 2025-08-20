@@ -80,7 +80,7 @@ class AlexupportAgent:
         formatted_answer = f"""
         {answer}
         Here are some follow-up questions you might consider:
-        {";".join([f for f in follow_ups])}
+        {"; ".join([f for f in follow_ups])}
         """
 
         return formatted_answer
