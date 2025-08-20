@@ -50,8 +50,8 @@ class InformationRetriever:
             )
         )
 
-        # Keep only the points with a similarity score of at least 0.7
-        search_results.points = [point for point in search_results.points if point.score >= 0.7]
+        # Keep only the points with a similarity score of at least 0.5
+        search_results.points = [point for point in search_results.points if point.score >= 0.5]
 
         results_answers_and_review_snippets = [result.payload['answers'] + result.payload['review_snippets'] for result in search_results.points]
         return results_answers_and_review_snippets
