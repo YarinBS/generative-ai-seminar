@@ -1,12 +1,19 @@
-from time import time
+import time
+
 import streamlit as st
 from qdrant_client import QdrantClient
 
 from agent.alexupport_agent import AlexupportAgent
-import random
-import time
 
-agent = AlexupportAgent()
+def _typing_stream(text):
+    """Simulate typing effect"""
+    for word in text.split():
+        yield word + " "
+        time.sleep(0.1)
+
+if "agent" not in st.session_state:
+    st.session_state["agent"] = AlexupportAgent()
+agent = st.session_state["agent"]
 
 QDRANT_URL = "https://63ad19dc-7779-4868-bc81-41f5fae4353a.europe-west3-0.gcp.cloud.qdrant.io:6333"
 QDRANT_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0._mnughDNgXpg2I_tMDwpIIKZJiDqma2o_YDld0ZseR4"
@@ -44,6 +51,8 @@ if "asin" not in st.session_state or st.session_state["asin"] != selected_asin:
     st.session_state["asin"] = selected_asin
     st.session_state["messages"] = []
 
+    agent.memory.clear()
+
     chat_start_msg = agent.get_agent_chat_start(product_title)
     st.session_state["messages"].append({"role": "assistant", "content": chat_start_msg})
 
@@ -60,25 +69,7 @@ if prompt := st.chat_input("Your question here..."):
 
     with st.chat_message("assistant"):
 
-        # ----- Agent response logic -----
-        def response_generator(asin: str):
-            response = random.choice(
-                [
-                    "Hello there! How can I assist you today?",
-                    "Hi, human! Is there anything I can help you with?",
-                    "Do you need help?",
-                ]
-            )
-
-            response = response + f" (ASIN: {asin})"
-
-            for word in response.split():
-                yield word + " "
-                time.sleep(0.05)
-
-        response = st.write_stream(response_generator(asin=selected_asin))
-
-        # response = st.write_stream(agent.answer_user_query(user_query=prompt))
-        # ----- Agent response logic -----
+        response = agent.answer_user_query(user_query=prompt, product_asin=selected_asin)
+        response = st.write_stream(_typing_stream(response))
 
     st.session_state.messages.append({"role": "assistant", "content": response})
