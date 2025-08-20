@@ -30,7 +30,7 @@ class AlexupportAgent:
 
         self.chat_start = "Let's have a chat about {product_title}.\nAsk me anything!"
 
-        self.memory = ConversationBufferMemory()
+        self.memory = ConversationBufferMemory(return_messages=True)
 
         # Initializing all microagents
         self.input_refiner = InputRefiner(llm_client=LLM_CLIENT)
@@ -61,9 +61,8 @@ class AlexupportAgent:
 
     def answer_user_query(self, user_query: str, product_asin: str) -> str:
         """Main Alexupport pipeline"""
-        # Step 0 - Clear previous chat history, if exists, and append the user query
-        self.memory.clear()
-        self.memory.chat_memory.add_user_message(content=user_query)
+        # Step 0 - Append the user query
+        self.memory.chat_memory.messages.append(HumanMessage(content=user_query))
 
         # Step 1 - Refine user query
         refined_query = self.input_refiner.refine_input(user_query)
@@ -111,7 +110,7 @@ class AlexupportAgent:
                     follow_ups=followup_questions
                 )
 
-                self.memory.chat_memory.add_ai_message(content=final_answer)
+                self.memory.chat_memory.messages.append(AIMessage(content=final_answer))
                 return final_answer
 
             iteration += 1
@@ -126,5 +125,5 @@ class AlexupportAgent:
             follow_ups=followup_questions
         )
 
-        self.memory.chat_memory.add_ai_message(content=final_answer)
+        self.memory.chat_memory.messages.append(AIMessage(content=final_answer))
         return final_answer
