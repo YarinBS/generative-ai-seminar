@@ -1,4 +1,4 @@
-Input:
+Input (Selected product ID: B000SSYY88):
 what kinds of cheese can this slicer handle?
 
 Output:
