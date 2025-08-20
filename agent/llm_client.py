@@ -79,7 +79,7 @@ class LLMClient:
         for msg in messages:
             if msg["role"] == "system":
                 langchain_messages.append(SystemMessage(content=msg["content"]))
-            elif msg["role"] == "human":
+            elif msg["role"] == "human" or msg["role"] == "user":
                 langchain_messages.append(HumanMessage(content=msg["content"]))
             elif msg["role"] == "assistant":
                 langchain_messages.append(AIMessage(content=msg["content"]))
