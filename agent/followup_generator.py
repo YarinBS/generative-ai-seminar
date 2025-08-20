@@ -26,7 +26,7 @@ class FollowUpGenerator:
         Format your response as a simple list of 2-3 questions, one per line, without numbering or bullet points.
         """
 
-    def generate_follow_ups(self, user_question: str, context: List[str]) -> List[str]:
+    def generate_follow_ups(self, user_question: str, context: List[List[str]]) -> List[str]:
         """
         Generates follow-up questions based on the user input and retrieved information.
 

@@ -31,7 +31,7 @@ class AnswerGenerator:
         Format your response as a clear, helpful answer that directly addresses the user's question.
         """
 
-    def generate_answer(self, user_question: str, context: List[str]) -> str:
+    def generate_answer(self, user_question: str, context: List[List[str]]) -> str:
         """
         Generates an answer to the user question based on the provided context.
 

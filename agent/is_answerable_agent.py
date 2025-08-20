@@ -26,7 +26,7 @@ class IsAnswerableAgent:
         Respond with only "YES" if the question can be answered, or "NO" if it cannot be answered reliably.
         """
 
-    def check_answerability(self, user_question: str, retrieved_info: List[str]) -> bool:
+    def check_answerability(self, user_question: str, retrieved_info: List[List[str]]) -> bool:
         """
         Checks if the retrieved information can be used to answer the user question.
 

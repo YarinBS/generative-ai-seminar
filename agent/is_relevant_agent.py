@@ -27,7 +27,7 @@ class IsRelevantAgent:
         Respond with only "YES" if the answer is good, or "NO" if it needs improvement.
         """
 
-    def assess_relevance(self, user_question: str, generated_response: str, context: List[str]) -> bool:
+    def assess_relevance(self, user_question: str, generated_response: str, context: List[List[str]]) -> bool:
         """
         Assesses the relevance of the generated response to the user question.
 
