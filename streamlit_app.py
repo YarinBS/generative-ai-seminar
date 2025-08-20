@@ -9,7 +9,7 @@ def _typing_stream(text):
     """Simulate typing effect"""
     for word in text.split():
         yield word + " "
-        time.sleep(0.1)
+        time.sleep(0.05)
 
 if "agent" not in st.session_state:
     st.session_state["agent"] = AlexupportAgent()
