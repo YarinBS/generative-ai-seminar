@@ -46,10 +46,12 @@ class InformationRetriever:
             query_filter=Filter(  # Filter to narrow down results based on a specific 'asin'
                 must=[
                     FieldCondition(key="asin", match=MatchValue(value=product_id)),
-                    FieldCondition(key="_score", range={"gte": 0.7})  # Similarity score >= 0.7
                 ]
             )
         )
+
+        # Keep only the points with a similarity score of at least 0.7
+        search_results.points = [point for point in search_results.points if point.score >= 0.7]
 
         results_answers_and_review_snippets = [result.payload['answers'] + result.payload['review_snippets'] for result in search_results.points]
         return results_answers_and_review_snippets
