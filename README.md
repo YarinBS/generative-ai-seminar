@@ -56,12 +56,7 @@ These steps reduce the number of unqiue items to 163 and the number of records t
     echo "API_KEY = <your-api-key>" > .env
     ```
 
-3. **Run the agent using the Streamlit UI**
-    ```bash
-    streamlit run streamlit_app.py
-    ```
-
-    **Or, run the agent in non-GUI mode (Not recommended - only use if you have a valid ASIN)**
+3. **Run the agent (using the Streamlit UI)**
     ```bash
     python main.py
     ```
