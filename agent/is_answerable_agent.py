@@ -8,7 +8,7 @@ from typing import List
 from agent.llm_client import LLMClient
 
 class IsAnswerableAgent:
-    """Microagent for determining if the retrieved data can answer the user's question."""
+    """Microagent for determining if the retrieved data can answer the user's question"""
 
     def __init__(self, llm_client: LLMClient):
         self.llm_client = llm_client
@@ -29,6 +29,13 @@ class IsAnswerableAgent:
     def check_answerability(self, user_question: str, retrieved_info: List[str]) -> bool:
         """
         Checks if the retrieved information can be used to answer the user question.
+
+        Parameters:
+        - user_question: str; The question posed by the user.
+        - retrieved_info: List[str]; The context information retrieved for the product.
+
+        Returns:
+        - bool; True if the question can be answered, False otherwise.
         """
 
         complete_human_input = f"""

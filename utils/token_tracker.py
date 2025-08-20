@@ -2,7 +2,14 @@ import os
 import datetime
 
 def log_token_usage(operation: str, input_tokens: int, output_tokens: int = 0) -> None:
-    """Logs the token usage to the total_tokens.txt file"""
+    """
+    Logs the token usage to the total_tokens.txt file.
+
+    Parameters:
+    - operation: str; The operation being performed (e.g., "response_generation").
+    - input_tokens: int; The number of input tokens used.
+    - output_tokens: int; The number of output tokens generated (default is 0).
+    """
 
     if operation not in ["response_generation", "embeddings_generation"]:
         raise ValueError("Operation must be either 'response_generation' or 'embeddings_generation'.")

@@ -8,7 +8,7 @@ from typing import List
 from agent.llm_client import LLMClient
 
 class FollowUpGenerator:
-    """Microagent for generating relevant follow-up questions"""
+    """Microagent class for generating relevant follow-up questions"""
 
     def __init__(self, llm_client: LLMClient):
         self.llm_client = llm_client
@@ -29,6 +29,13 @@ class FollowUpGenerator:
     def generate_follow_ups(self, user_question: str, context: List[str]) -> List[str]:
         """
         Generates follow-up questions based on the user input and retrieved information.
+
+        Parameters:
+        - user_question: str; The question posed by the user.
+        - context: List[str]; The context information retrieved for the product.
+
+        Returns:
+        - List[str]; A list of generated follow-up questions.
         """
 
         def _parse_follow_ups(follow_up_questions: str) -> List[str]:

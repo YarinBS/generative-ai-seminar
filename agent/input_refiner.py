@@ -6,7 +6,7 @@ which is responsible for refining and enriching user questions
 from agent.llm_client import LLMClient
 
 class InputRefiner:
-    """Microagent for refining and enriching user questions."""
+    """Microagent class for refining and enriching user questions"""
 
     def __init__(self, llm_client: LLMClient):
         self.llm_client = llm_client
@@ -22,7 +22,15 @@ class InputRefiner:
         """
 
     def refine_input(self, user_input: str) -> str:
-        """Refines the user input to improve LLM responses"""
+        """
+        Refines the user input to improve LLM responses.
+
+        Parameters:
+        - user_input: str; The original user question to refine.
+
+        Returns:
+        - str; The refined user question.
+        """
 
         complete_human_input = f"""
         Refine the following user question to improve clarity and specificity.

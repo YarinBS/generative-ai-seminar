@@ -10,7 +10,7 @@ from langchain.memory import ConversationBufferMemory
 from agent.llm_client import LLMClient
 
 class AnswerGenerator:
-    """Microagent for generating answers to user questions."""
+    """Microagent class for generating answers to user questions"""
 
     def __init__(self, llm_client: LLMClient, chat_history: ConversationBufferMemory):
         self.llm_client = llm_client
@@ -34,6 +34,13 @@ class AnswerGenerator:
     def generate_answer(self, user_question: str, context: List[str]) -> str:
         """
         Generates an answer to the user question based on the provided context.
+
+        Parameters:
+        - user_question: str; The question posed by the user.
+        - context: List[str]; The context information retrieved for the product.
+
+        Returns:
+        - str; The generated answer to the user question.
         """
 
         # Building the message for the LLM

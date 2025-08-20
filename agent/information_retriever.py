@@ -16,7 +16,7 @@ client = QdrantClient(
 )
 
 class InformationRetriever:
-    """Microagent for retrieving relevant information from the Qdrant database."""
+    """Microagent class for retrieving relevant information from the Qdrant database"""
 
     def __init__(self, qdrant_client: QdrantClient, llm_client: LLMClient):
         self.qdrant_client = qdrant_client

@@ -51,11 +51,27 @@ class LLMClient:
         self.tokenizer = tiktoken.encoding_for_model("gpt-4o")
 
     def count_tokens(self, text: str) -> int:
-        """Counts the number of tokens in the given text using the tokenizer."""
+        """
+        Counts the number of tokens in the given text using the tokenizer.
+
+        Parameters:
+        - text: str; The text to count tokens for.
+
+        Returns:
+        - int; The number of tokens in the text.
+        """
         return len(self.tokenizer.encode(text))
 
     def generate_response(self, messages: List[Dict[str, str]]) -> str:
-        """Generates a response from the chat model based on the provided messages."""
+        """
+        Generates a response from the chat model based on the provided messages.
+
+        Parameters:
+        - messages: List[Dict[str, str]]; The messages to send to the chat model.
+
+        Returns:
+        - str; The response from the chat model.
+        """
 
         langchain_messages = []
         total_input_tokens = 0
@@ -83,7 +99,15 @@ class LLMClient:
         return response.content
 
     def generate_embeddings(self, texts: List[str]) -> List[float]:
-        """Generates embeddings for the given texts."""
+        """
+        Generates embeddings for the given texts.
+
+        Parameters:
+        - texts: List[str]; The texts to generate embeddings for.
+
+        Returns:
+        - List[float]; The generated embeddings for the texts.
+        """
         total_input_tokens = sum(self.count_tokens(text) for text in texts)
 
         if len(texts) == 1:
