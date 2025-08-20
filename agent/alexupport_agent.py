@@ -113,6 +113,7 @@ class AlexupportAgent:
             user_question=refined_query,
             retrieved_info=retrieved_info
         ):
+            self.memory.chat_memory.messages.append(HumanMessage(content=user_query))
             return "I'm sorry, but I can't answer that question. This may be due to insufficient information. Try asking something else."
 
         # Iterate up to 5 times
@@ -134,6 +135,8 @@ class AlexupportAgent:
 
             if is_relevant:
 
+                self.memory.chat_memory.messages.append(HumanMessage(content=user_query))
+
                 # Step 6 - Generate follow-up questions
                 followup_questions = self.followup_generator.generate_follow_ups(
                     user_question=refined_query,
@@ -149,6 +152,8 @@ class AlexupportAgent:
                 return final_answer
 
             iteration += 1
+
+        self.memory.chat_memory.messages.append(HumanMessage(content=user_query))
 
         followup_questions = self.followup_generator.generate_follow_ups(
             user_question=refined_query,
