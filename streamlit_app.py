@@ -1,3 +1,7 @@
+"""
+Streamlit module for the Alexupport Agent
+"""
+
 import time
 
 import streamlit as st
