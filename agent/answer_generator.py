@@ -46,7 +46,7 @@ class AnswerGenerator:
         # Building the message for the LLM
 
         if self.chat_history:
-            history_string = "; ".join(f"{message.type.capitalize()}: {message.content}" for message in self.chat_history.chat_memory.messages)
+            history_string = "; ".join(f"{message.type.upper()}: {message.content}" for message in self.chat_history.chat_memory.messages)
             history_prefix = f"Here's the history of the current chat: [{history_string}]."
         else:
             history_prefix = ""
