@@ -10,7 +10,7 @@ from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
 import tiktoken
 
-from utils.token_tracker import log_token_usage
+from utils.utils import log_token_usage
 
 tiktoken.encoding_for_model("gpt-4o")
 

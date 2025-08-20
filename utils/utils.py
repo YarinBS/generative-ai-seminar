@@ -1,5 +1,7 @@
-import os
 import datetime
+import re
+import os
+
 
 def log_token_usage(operation: str, input_tokens: int, output_tokens: int = 0) -> None:
     """
@@ -24,3 +26,7 @@ def log_token_usage(operation: str, input_tokens: int, output_tokens: int = 0) -
     with open(log_file, "a") as file:
         timestamp = datetime.datetime.now().isoformat()
         file.write(f"{timestamp} - {operation}: input={input_tokens}, output={output_tokens}\n")
+
+def clean_string(s: str) -> str:
+    cleaned = re.sub(r'\s+', ' ', s).strip()
+    return cleaned
