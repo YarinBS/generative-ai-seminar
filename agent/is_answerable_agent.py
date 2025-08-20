@@ -6,6 +6,7 @@ which is responsible for determining if the retrieved data can be used to answer
 from typing import List
 
 from agent.llm_client import LLMClient
+from utils.utils import clean_string
 
 class IsAnswerableAgent:
     """Microagent for determining if the retrieved data can answer the user's question"""
@@ -38,7 +39,7 @@ class IsAnswerableAgent:
         - bool; True if the question can be answered, False otherwise.
         """
 
-        complete_human_input = f"""
+        complete_human_input = clean_string(f"""
         Based on the following information, determine if the user's question can be answered.
 
         User Question:
@@ -49,7 +50,7 @@ class IsAnswerableAgent:
 
         Provide a simple "YES" or "NO" response based on the information's relevance and completeness.
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
-        """
+        """)
 
         if not retrieved_info:  # In the case we got nothing from the vector DB, there's nothing to base our answer on, so we say the answer is not answerable
             return False

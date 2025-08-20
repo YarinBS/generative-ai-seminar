@@ -6,6 +6,7 @@ which is responsible for generating follow-up questions based on the user's inpu
 from typing import List
 
 from agent.llm_client import LLMClient
+from utils.utils import clean_string
 
 class FollowUpGenerator:
     """Microagent class for generating relevant follow-up questions"""
@@ -42,7 +43,7 @@ class FollowUpGenerator:
             """Parses the follow-up questions from the LLM response."""
             return [q.strip() for q in follow_up_questions.split('\n')]
 
-        complete_human_input = f"""
+        complete_human_input = clean_string(f"""
         Based on the following conversation, generate 2-3 relevant follow-up questions:
 
         User question: {user_question}
@@ -51,7 +52,7 @@ class FollowUpGenerator:
 
         Generate follow-up questions that would help the user discover more useful information about this product or related concerns.
         Return the follow-up questions as a simple list, each question on a new line, separated by a newline character.
-        """
+        """)
 
         messages = [
             {"role": "system", "content": self.system_prompt},

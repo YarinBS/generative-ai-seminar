@@ -4,6 +4,7 @@ which is responsible for refining and enriching user questions
 """
 
 from agent.llm_client import LLMClient
+from utils.utils import clean_string
 
 class InputRefiner:
     """Microagent class for refining and enriching user questions"""
@@ -32,10 +33,10 @@ class InputRefiner:
         - str; The refined user question.
         """
 
-        complete_human_input = f"""
+        complete_human_input = clean_string(f"""
         Refine the following user question to improve clarity and specificity.
         User Question: {user_input}
-        """
+        """)
 
         messages = [
             {"role": "system", "content": self.system_prompt},

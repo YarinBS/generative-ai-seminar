@@ -8,6 +8,7 @@ from typing import List
 from langchain.memory import ConversationBufferMemory
 
 from agent.llm_client import LLMClient
+from utils.utils import clean_string
 
 class AnswerGenerator:
     """Microagent class for generating answers to user questions"""
@@ -51,7 +52,7 @@ class AnswerGenerator:
         else:
             history_prefix = ""
 
-        complete_human_input = f"""
+        complete_human_input = clean_string(f"""
         {history_prefix}
         Based on the following information from real customer experiences and reviews, answer the following question using the available information.
 
@@ -61,7 +62,7 @@ class AnswerGenerator:
         {context}
 
         Provide a helpful, accurate answer based on this information.
-        """
+        """)
 
         messages = [
             {"role": "system", "content": self.system_prompt},

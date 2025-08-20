@@ -7,6 +7,7 @@ to the user's question.
 from typing import List
 
 from agent.llm_client import LLMClient
+from utils.utils import clean_string
 
 class IsRelevantAgent:
     """Microagent for determining the relevance of the generated response"""
@@ -40,7 +41,7 @@ class IsRelevantAgent:
         - bool; True if the generated response is relevant, False otherwise.
         """
 
-        complete_human_input = f"""
+        complete_human_input = clean_string(f"""
         Based on the following information, determine if the generated answer is relevant and helpful.
 
         Original question: {user_question}
@@ -51,7 +52,7 @@ class IsRelevantAgent:
 
         Provide a simple "YES" or "NO" response based on the answer's relevance and helpfulness.
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
-        """
+        """)
 
         response = self.llm_client.generate_response(messages=[
             {"role": "user", "content": complete_human_input}
