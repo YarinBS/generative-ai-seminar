@@ -1275,6 +1275,7 @@
 2025-08-21T00:29:12.676796 - response_generation: input=936, output=243
 2025-08-21T00:29:13.165576 - response_generation: input=1158, output=1
 2025-08-21T00:29:14.368044 - response_generation: input=923, output=60
+<<<<<<< HEAD
 2025-08-21T17:59:28.083279 - response_generation: input=107, output=11
 2025-08-21T17:59:28.850318 - embeddings_generation: input=11, output=0
 2025-08-21T17:59:30.289846 - response_generation: input=2909, output=1
@@ -1299,3 +1300,15 @@
 2025-08-21T18:05:00.652244 - response_generation: input=2306, output=57
 2025-08-21T18:05:37.649945 - response_generation: input=102, output=10
 2025-08-21T18:05:38.270890 - embeddings_generation: input=10, output=0
+=======
+2025-08-21T17:51:38.321143 - response_generation: input=107, output=12
+2025-08-21T17:51:39.164202 - embeddings_generation: input=12, output=0
+2025-08-21T17:51:40.386231 - response_generation: input=1560, output=1
+2025-08-21T17:51:42.156555 - response_generation: input=1571, output=134
+2025-08-21T17:51:42.660742 - response_generation: input=1686, output=1
+2025-08-21T17:51:44.157071 - response_generation: input=1560, output=66
+2025-08-21T17:52:11.263783 - response_generation: input=102, output=13
+2025-08-21T17:52:11.836023 - embeddings_generation: input=13, output=0
+2025-08-21T17:52:27.869953 - response_generation: input=102, output=11
+2025-08-21T17:52:28.455044 - embeddings_generation: input=11, output=0
+>>>>>>> 5d89ebe4eb7e8e9cfeaa33f61b968c95af00af12
