@@ -42,29 +42,41 @@ class IsAnswerableAgent:
         - bool; True if the question can be answered, False otherwise.
         """
 
-        if self.chat_history:
+        if self.chat_history.chat_memory.messages:
             history_string = "; ".join(f"{message.type.upper()}: {message.content}" for message in self.chat_history.chat_memory.messages)
             history_string = f"[{history_string}]."
         else:
             history_string = ""
 
-        complete_human_input = clean_string(f"""
+        prompt = f"""
         Based on the following information and the history of the current chat, determine if the user's question can be answered.
 
         User Question:
-        {user_question}
+        {user_question}.
+        """
 
-        Retrieved Information:
-        {retrieved_info}
+        if retrieved_info:
+            prompt += f"""
 
-        Current chat history:
-        {history_string}
+            Retrieved Information:
+            {retrieved_info}
+            """
 
+        if history_string.strip():
+            prompt += f"""
+
+            Current chat history:
+            {history_string}
+            """
+
+        prompt += """
         Provide a simple "YES" or "NO" response based on the information's relevance and completeness.
         Do not provide any additional explanations or details other than your "YES" or "NO" answer.
-        """)
+        """
 
-        if not retrieved_info:  # In the case we got nothing from the vector DB, there's nothing to base our answer on, so we say the answer is not answerable
+        complete_human_input = clean_string(prompt)
+
+        if not retrieved_info and not history_string:  # In the case we got nothing from the vector DB and there's no chat history, there's nothing to base our answer on, so we say the answer is not answerable
             return False
 
         messages = [
