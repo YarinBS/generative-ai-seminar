@@ -59,7 +59,7 @@ These steps reduce the number of unqiue items to 163 and the number of records t
 
 3. **Set the AzureOpenAI `API_KEY` environment variable in the `.env` file**
     ``` bash
-    echo "API_KEY = <your-api-key>" > .env
+    echo API_KEY="<your-api-key>" > .env
     ```
 
 4. **Run the agent (using the Streamlit UI)**
