@@ -3,11 +3,15 @@ Streamlit module for the Alexupport Agent
 """
 
 import time
+import warnings
 
+from langchain_core._api import LangChainDeprecationWarning
 import streamlit as st
 from qdrant_client import QdrantClient
 
 from agent.alexupport_agent import AlexupportAgent
+
+warnings.filterwarnings("ignore", category=LangChainDeprecationWarning)
 
 def _typing_stream(text):
     """Simulate typing effect"""
