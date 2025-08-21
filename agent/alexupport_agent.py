@@ -35,7 +35,7 @@ class AlexupportAgent:
         # Initializing all microagents
         self.input_refiner = InputRefiner(llm_client=LLM_CLIENT)
         self.information_retriever = InformationRetriever(qdrant_client=client, llm_client=LLM_CLIENT)
-        self.is_answerable_agent = IsAnswerableAgent(llm_client=LLM_CLIENT)
+        self.is_answerable_agent = IsAnswerableAgent(llm_client=LLM_CLIENT, chat_history=self.memory)
         self.answer_generator = AnswerGenerator(llm_client=LLM_CLIENT, chat_history=self.memory)
         self.followup_generator = FollowUpGenerator(llm_client=LLM_CLIENT)
         self.is_relevant_generator = IsRelevantAgent(llm_client=LLM_CLIENT)
