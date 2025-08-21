@@ -46,17 +46,23 @@ These steps reduce the number of unqiue items to 163 and the number of records t
 
 ## ⚒️ Setup
 
-1. **Install dependencies**
+1. **Create a Python 3.11 virtual environment and activate it**
+    ```bash
+    python3.11 -m venv .venv
+    source .venv/bin/activate
+    ```
+
+2. **Install dependencies**
     ```bash
     pip install -r requirements.txt
     ```
 
-2. **Set the AzureOpenAI `API_KEY` environment variable in the `.env` file**
+3. **Set the AzureOpenAI `API_KEY` environment variable in the `.env` file**
     ``` bash
     echo "API_KEY = <your-api-key>" > .env
     ```
 
-3. **Run the agent (using the Streamlit UI)**
+4. **Run the agent (using the Streamlit UI)**
     ```bash
     python main.py
     ```
